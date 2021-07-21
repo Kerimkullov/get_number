@@ -33,26 +33,35 @@ class _AgentsScreenState extends State<AgentsScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => GetNumberScreen())),
-                        leading: Icon(
-                          Icons.person_rounded,
-                          size: 28,
-                          color: Colors.black,
+                        leading: InkWell(
+                          onTap: () => print("object"),
+                          child: Icon(
+                            Icons.person_rounded,
+                            size: 28,
+                            color: Colors.black,
+                          ),
                         ),
                         title: Text("Agent $index",
                             style: TextStyle(fontSize: 20)),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(
-                              Icons.edit,
-                              size: 28,
-                              color: Colors.black,
+                            InkWell(
+                              onTap: () => print("object"),
+                              child: Icon(
+                                Icons.edit,
+                                size: 28,
+                                color: Colors.black,
+                              ),
                             ),
                             SizedBox(width: 8),
-                            Icon(
-                              Icons.delete,
-                              size: 28,
-                              color: Colors.black,
+                            InkWell(
+                              onTap: () => print("object"),
+                              child: Icon(
+                                Icons.delete,
+                                size: 28,
+                                color: Colors.black,
+                              ),
                             ),
                           ],
                         ),

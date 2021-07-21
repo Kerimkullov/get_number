@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_number/components/custom_button.dart';
+import 'package:get_number/screen.dart/agent/agents_screen.dart';
 import 'package:get_number/screen.dart/auth/auth_password_screen.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthNumberScreen extends StatefulWidget {
   @override
@@ -9,29 +13,17 @@ class AuthNumberScreen extends StatefulWidget {
 
 class _AuthNumberScreenState extends State<AuthNumberScreen> {
   TextEditingController msisdnController = TextEditingController();
-  bool checkedValue = false;
+  var maskFormatter = new MaskTextInputFormatter(
+      mask: ' (###) ###-###', filter: {"#": RegExp(r'[0-9]')});
+  ValueNotifier<bool> checkedValue = ValueNotifier<bool>(true);
+
+  bool bioActual = false;
 
   @override
   void initState() {
+    checkBio();
+
     super.initState();
-    // msisdnController.addListener(() {
-    //   if (numberLen < msisdnController.text.length) {
-    //     isDeletingSymbol = false;
-    //   } else {
-    //     isDeletingSymbol = true;
-    //   }
-    //   numberLen = msisdnController.text.length;
-    //   setState(() {
-    //     if (isHasError) {
-    //       isHasError = false;
-    //     }
-    //     if (msisdnController.text.length == 11) {
-    //       isActiveButton = true;
-    //     } else {
-    //       isActiveButton = false;
-    //     }
-    //   });
-    // });
   }
 
   @override
@@ -44,16 +36,13 @@ class _AuthNumberScreenState extends State<AuthNumberScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
-                controller: msisdnController,
+                inputFormatters: [maskFormatter],
                 autofocus: true,
-                textInputAction: TextInputAction.next,
-                inputFormatters: [],
+                controller: msisdnController,
                 keyboardType: TextInputType.number,
-                maxLength: 11,
                 style: TextStyle(fontSize: 14.0),
                 decoration: InputDecoration(
-                  counterText: "",
-                  prefix: Text("+996 "),
+                  prefix: Text("+996"),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue),
                   ),
@@ -64,29 +53,60 @@ class _AuthNumberScreenState extends State<AuthNumberScreen> {
               SizedBox(height: 32),
               CustomButton(
                 color: Colors.blue,
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AuthPasswordScreen())),
+                onTap: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  prefs.setBool('bio', checkedValue.value);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AuthPasswordScreen()));
+                },
                 child:
                     Text("Получить код", style: TextStyle(color: Colors.white)),
               ),
               SizedBox(height: 32),
-              CheckboxListTile(
-                title: Text("Вход по touch"),
-                value: checkedValue,
-                onChanged: (newValue) {
-                  setState(() {
-                    checkedValue = newValue!;
-                  });
-                },
-                controlAffinity:
-                    ListTileControlAffinity.leading, //  <-- leading Checkbox
-              )
+              ValueListenableBuilder(
+                valueListenable: checkedValue,
+                builder: (context, value, child) => CheckboxListTile(
+                  title: Text("Вход по touch"),
+                  value: checkedValue.value,
+                  onChanged: (newValue) {
+                    checkedValue.value = newValue!;
+                  },
+                  controlAffinity:
+                      ListTileControlAffinity.leading, //  <-- leading Checkbox
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void checkBio() async {
+    final prefs = await SharedPreferences.getInstance();
+    final bioValue = prefs.getBool('bio') ?? false;
+    setState(() {
+      checkedValue.value = bioValue;
+    });
+    if (checkedValue.value) {
+      bio();
+    }
+  }
+
+  void bio() async {
+    var localAuth = LocalAuthentication();
+    bioActual = await localAuth.authenticate(
+        localizedReason: 'Авторизация с помощью отпечатка пальца',
+        biometricOnly: true);
+    if (bioActual == true) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => AgentsScreen()));
+    } else {
+      setState(() {
+        checkedValue.value = bioActual;
+      });
+    }
   }
 }
