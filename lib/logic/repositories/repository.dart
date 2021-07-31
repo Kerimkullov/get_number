@@ -15,4 +15,7 @@ class UserRepository {
 //add agent
   Future<String> addAgent(String msisdn, String name) =>
       _userProvider.addAgent(msisdn, name);
+
+  //get random number
+  Future<String> getNumber() => _userProvider.getNumber();
 }

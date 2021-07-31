@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_number/components/custom_loading.dart';
 import 'package:get_number/logic/bloc/agent_list/agent_list_bloc.dart';
-import 'package:get_number/screen.dart/get_number_screen.dart/get_number_screen.dart';
+import 'package:get_number/screen.dart/get_number_screen/get_number_screen.dart';
 
 import 'add_agent_screen.dart';
 

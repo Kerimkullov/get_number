@@ -4,7 +4,8 @@ import 'package:get_number/components/custom_button.dart';
 import 'package:get_number/components/custom_loading.dart';
 import 'package:get_number/logic/bloc/auth/auth_bloc.dart';
 import 'package:get_number/screen.dart/agent/agents_list_screen.dart';
-import 'package:get_number/screen.dart/get_number_screen.dart/get_number_screen.dart';
+import 'package:get_number/screen.dart/agent/choice_screen.dart';
+import 'package:get_number/screen.dart/get_number_screen/get_number_screen.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -58,7 +59,7 @@ class _AuthNumberScreenState extends State<AuthNumberScreen> {
                         : Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AgentsScreen()));
+                                builder: (context) => ChoiceScreen()));
                   },
                   orElse: () {});
             },

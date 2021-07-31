@@ -49,6 +49,16 @@ class ServiceApi {
       throw CatchException.convertException(e);
     }
   }
+
+  Future<String> getNumber() async {
+    try {
+      final response =
+          await _dio.get("relation/generate/msisdn?id=${await getId()}");
+      return response.data["message"];
+    } on DioError catch (e) {
+      throw CatchException.convertException(e);
+    }
+  }
 }
 
 Future<int> getId() async {
