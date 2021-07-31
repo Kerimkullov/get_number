@@ -19,6 +19,12 @@ class _$AgentListEventTearOff {
   _AgentList agentList() {
     return const _AgentList();
   }
+
+  _DeleteAgent deleteAgent(int id) {
+    return _DeleteAgent(
+      id,
+    );
+  }
 }
 
 /// @nodoc
@@ -29,22 +35,26 @@ mixin _$AgentListEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() agentList,
+    required TResult Function(int id) deleteAgent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? agentList,
+    TResult Function(int id)? deleteAgent,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_AgentList value) agentList,
+    required TResult Function(_DeleteAgent value) deleteAgent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_AgentList value)? agentList,
+    TResult Function(_DeleteAgent value)? deleteAgent,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -106,6 +116,7 @@ class _$_AgentList implements _AgentList {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() agentList,
+    required TResult Function(int id) deleteAgent,
   }) {
     return agentList();
   }
@@ -114,6 +125,7 @@ class _$_AgentList implements _AgentList {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? agentList,
+    TResult Function(int id)? deleteAgent,
     required TResult orElse(),
   }) {
     if (agentList != null) {
@@ -126,6 +138,7 @@ class _$_AgentList implements _AgentList {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_AgentList value) agentList,
+    required TResult Function(_DeleteAgent value) deleteAgent,
   }) {
     return agentList(this);
   }
@@ -134,6 +147,7 @@ class _$_AgentList implements _AgentList {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_AgentList value)? agentList,
+    TResult Function(_DeleteAgent value)? deleteAgent,
     required TResult orElse(),
   }) {
     if (agentList != null) {
@@ -148,6 +162,122 @@ abstract class _AgentList implements AgentListEvent {
 }
 
 /// @nodoc
+abstract class _$DeleteAgentCopyWith<$Res> {
+  factory _$DeleteAgentCopyWith(
+          _DeleteAgent value, $Res Function(_DeleteAgent) then) =
+      __$DeleteAgentCopyWithImpl<$Res>;
+  $Res call({int id});
+}
+
+/// @nodoc
+class __$DeleteAgentCopyWithImpl<$Res>
+    extends _$AgentListEventCopyWithImpl<$Res>
+    implements _$DeleteAgentCopyWith<$Res> {
+  __$DeleteAgentCopyWithImpl(
+      _DeleteAgent _value, $Res Function(_DeleteAgent) _then)
+      : super(_value, (v) => _then(v as _DeleteAgent));
+
+  @override
+  _DeleteAgent get _value => super._value as _DeleteAgent;
+
+  @override
+  $Res call({
+    Object? id = freezed,
+  }) {
+    return _then(_DeleteAgent(
+      id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_DeleteAgent implements _DeleteAgent {
+  const _$_DeleteAgent(this.id);
+
+  @override
+  final int id;
+
+  @override
+  String toString() {
+    return 'AgentListEvent.deleteAgent(id: $id)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _DeleteAgent &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(id);
+
+  @JsonKey(ignore: true)
+  @override
+  _$DeleteAgentCopyWith<_DeleteAgent> get copyWith =>
+      __$DeleteAgentCopyWithImpl<_DeleteAgent>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() agentList,
+    required TResult Function(int id) deleteAgent,
+  }) {
+    return deleteAgent(id);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? agentList,
+    TResult Function(int id)? deleteAgent,
+    required TResult orElse(),
+  }) {
+    if (deleteAgent != null) {
+      return deleteAgent(id);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_AgentList value) agentList,
+    required TResult Function(_DeleteAgent value) deleteAgent,
+  }) {
+    return deleteAgent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_AgentList value)? agentList,
+    TResult Function(_DeleteAgent value)? deleteAgent,
+    required TResult orElse(),
+  }) {
+    if (deleteAgent != null) {
+      return deleteAgent(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DeleteAgent implements AgentListEvent {
+  const factory _DeleteAgent(int id) = _$_DeleteAgent;
+
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  _$DeleteAgentCopyWith<_DeleteAgent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 class _$AgentListStateTearOff {
   const _$AgentListStateTearOff();
 
@@ -157,6 +287,12 @@ class _$AgentListStateTearOff {
 
   _Loaded loaded(List<AgentModel> model) {
     return _Loaded(
+      model,
+    );
+  }
+
+  _Delete delete(String model) {
+    return _Delete(
       model,
     );
   }
@@ -177,6 +313,7 @@ mixin _$AgentListState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(List<AgentModel> model) loaded,
+    required TResult Function(String model) delete,
     required TResult Function(CatchException exception) field,
   }) =>
       throw _privateConstructorUsedError;
@@ -184,6 +321,7 @@ mixin _$AgentListState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(List<AgentModel> model)? loaded,
+    TResult Function(String model)? delete,
     TResult Function(CatchException exception)? field,
     required TResult orElse(),
   }) =>
@@ -192,6 +330,7 @@ mixin _$AgentListState {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Delete value) delete,
     required TResult Function(_Field value) field,
   }) =>
       throw _privateConstructorUsedError;
@@ -199,6 +338,7 @@ mixin _$AgentListState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loaded value)? loaded,
+    TResult Function(_Delete value)? delete,
     TResult Function(_Field value)? field,
     required TResult orElse(),
   }) =>
@@ -261,6 +401,7 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(List<AgentModel> model) loaded,
+    required TResult Function(String model) delete,
     required TResult Function(CatchException exception) field,
   }) {
     return initial();
@@ -271,6 +412,7 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(List<AgentModel> model)? loaded,
+    TResult Function(String model)? delete,
     TResult Function(CatchException exception)? field,
     required TResult orElse(),
   }) {
@@ -285,6 +427,7 @@ class _$_Initial implements _Initial {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Delete value) delete,
     required TResult Function(_Field value) field,
   }) {
     return initial(this);
@@ -295,6 +438,7 @@ class _$_Initial implements _Initial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loaded value)? loaded,
+    TResult Function(_Delete value)? delete,
     TResult Function(_Field value)? field,
     required TResult orElse(),
   }) {
@@ -373,6 +517,7 @@ class _$_Loaded implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(List<AgentModel> model) loaded,
+    required TResult Function(String model) delete,
     required TResult Function(CatchException exception) field,
   }) {
     return loaded(model);
@@ -383,6 +528,7 @@ class _$_Loaded implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(List<AgentModel> model)? loaded,
+    TResult Function(String model)? delete,
     TResult Function(CatchException exception)? field,
     required TResult orElse(),
   }) {
@@ -397,6 +543,7 @@ class _$_Loaded implements _Loaded {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Delete value) delete,
     required TResult Function(_Field value) field,
   }) {
     return loaded(this);
@@ -407,6 +554,7 @@ class _$_Loaded implements _Loaded {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loaded value)? loaded,
+    TResult Function(_Delete value)? delete,
     TResult Function(_Field value)? field,
     required TResult orElse(),
   }) {
@@ -423,6 +571,126 @@ abstract class _Loaded implements AgentListState {
   List<AgentModel> get model => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$LoadedCopyWith<_Loaded> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$DeleteCopyWith<$Res> {
+  factory _$DeleteCopyWith(_Delete value, $Res Function(_Delete) then) =
+      __$DeleteCopyWithImpl<$Res>;
+  $Res call({String model});
+}
+
+/// @nodoc
+class __$DeleteCopyWithImpl<$Res> extends _$AgentListStateCopyWithImpl<$Res>
+    implements _$DeleteCopyWith<$Res> {
+  __$DeleteCopyWithImpl(_Delete _value, $Res Function(_Delete) _then)
+      : super(_value, (v) => _then(v as _Delete));
+
+  @override
+  _Delete get _value => super._value as _Delete;
+
+  @override
+  $Res call({
+    Object? model = freezed,
+  }) {
+    return _then(_Delete(
+      model == freezed
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_Delete implements _Delete {
+  const _$_Delete(this.model);
+
+  @override
+  final String model;
+
+  @override
+  String toString() {
+    return 'AgentListState.delete(model: $model)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _Delete &&
+            (identical(other.model, model) ||
+                const DeepCollectionEquality().equals(other.model, model)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(model);
+
+  @JsonKey(ignore: true)
+  @override
+  _$DeleteCopyWith<_Delete> get copyWith =>
+      __$DeleteCopyWithImpl<_Delete>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(List<AgentModel> model) loaded,
+    required TResult Function(String model) delete,
+    required TResult Function(CatchException exception) field,
+  }) {
+    return delete(model);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(List<AgentModel> model)? loaded,
+    TResult Function(String model)? delete,
+    TResult Function(CatchException exception)? field,
+    required TResult orElse(),
+  }) {
+    if (delete != null) {
+      return delete(model);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Delete value) delete,
+    required TResult Function(_Field value) field,
+  }) {
+    return delete(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Delete value)? delete,
+    TResult Function(_Field value)? field,
+    required TResult orElse(),
+  }) {
+    if (delete != null) {
+      return delete(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Delete implements AgentListState {
+  const factory _Delete(String model) = _$_Delete;
+
+  String get model => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  _$DeleteCopyWith<_Delete> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -490,6 +758,7 @@ class _$_Field implements _Field {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(List<AgentModel> model) loaded,
+    required TResult Function(String model) delete,
     required TResult Function(CatchException exception) field,
   }) {
     return field(exception);
@@ -500,6 +769,7 @@ class _$_Field implements _Field {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(List<AgentModel> model)? loaded,
+    TResult Function(String model)? delete,
     TResult Function(CatchException exception)? field,
     required TResult orElse(),
   }) {
@@ -514,6 +784,7 @@ class _$_Field implements _Field {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Delete value) delete,
     required TResult Function(_Field value) field,
   }) {
     return field(this);
@@ -524,6 +795,7 @@ class _$_Field implements _Field {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loaded value)? loaded,
+    TResult Function(_Delete value)? delete,
     TResult Function(_Field value)? field,
     required TResult orElse(),
   }) {

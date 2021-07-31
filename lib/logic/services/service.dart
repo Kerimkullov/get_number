@@ -3,6 +3,7 @@ import 'package:get_number/helper/catch_exceptions.dart';
 import 'package:get_number/helper/dio_settings.dart';
 import 'package:get_number/logic/model/agent_model.dart';
 import 'package:get_number/logic/model/auth_model.dart';
+import 'package:get_number/logic/model/number_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ServiceApi {
@@ -50,10 +51,19 @@ class ServiceApi {
     }
   }
 
-  Future<String> getNumber() async {
+  Future<GetNumberModel> getNumber() async {
     try {
       final response =
           await _dio.get("relation/generate/msisdn?id=${await getId()}");
+      return GetNumberModel.fromJson(response.data);
+    } on DioError catch (e) {
+      throw CatchException.convertException(e);
+    }
+  }
+
+  Future<String> deleteAgent(int id) async {
+    try {
+      final response = await _dio.get("agent/delete?id=$id");
       return response.data["message"];
     } on DioError catch (e) {
       throw CatchException.convertException(e);

@@ -17,7 +17,7 @@ class AuthNumberScreen extends StatefulWidget {
 
 class _AuthNumberScreenState extends State<AuthNumberScreen> {
   TextEditingController msisdnController = TextEditingController();
-
+  final focus = FocusNode();
   TextEditingController passwordController = TextEditingController();
   var maskFormatter = new MaskTextInputFormatter(
       mask: ' (###) ###-###', filter: {"#": RegExp(r'[0-9]')});
@@ -112,6 +112,9 @@ class _AuthNumberScreenState extends State<AuthNumberScreen> {
             controller: msisdnController,
             keyboardType: TextInputType.number,
             style: TextStyle(fontSize: 14.0),
+            onFieldSubmitted: (v) {
+              FocusScope.of(context).requestFocus(focus);
+            },
             decoration: InputDecoration(
               prefix: Text("+996"),
               enabledBorder: OutlineInputBorder(
@@ -124,6 +127,7 @@ class _AuthNumberScreenState extends State<AuthNumberScreen> {
           SizedBox(height: 16),
           TextFormField(
             inputFormatters: [pinFormatter],
+            focusNode: focus,
             controller: passwordController,
             keyboardType: TextInputType.number,
             style: TextStyle(fontSize: 14.0),

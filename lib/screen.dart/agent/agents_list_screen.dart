@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_number/components/custom_loading.dart';
 import 'package:get_number/logic/bloc/agent_list/agent_list_bloc.dart';
-import 'package:get_number/screen.dart/get_number_screen/get_number_screen.dart';
-
 import 'add_agent_screen.dart';
 
 class AgentsScreen extends StatefulWidget {
@@ -29,6 +27,11 @@ class _AgentsScreenState extends State<AgentsScreen> {
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(error.message.toString())))
                       },
+                  delete: (model) => {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(content: Text(model))),
+                        bloc.add(AgentListEvent.agentList())
+                      },
                   loaded: (data) async {},
                   orElse: () {});
             },
@@ -51,11 +54,6 @@ class _AgentsScreenState extends State<AgentsScreen> {
                                         borderRadius:
                                             BorderRadius.circular(16)),
                                     child: ListTile(
-                                      onTap: () => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  GetNumberScreen())),
                                       title: Text(
                                           value.model[index].name.toString(),
                                           style: TextStyle(fontSize: 20)),
@@ -63,7 +61,9 @@ class _AgentsScreenState extends State<AgentsScreen> {
                                           value.model[index].msisdn.toString(),
                                           style: TextStyle(fontSize: 18)),
                                       trailing: InkWell(
-                                        onTap: () => print("object"),
+                                        onTap: () => bloc.add(
+                                            AgentListEvent.deleteAgent(
+                                                value.model[index].id!)),
                                         child: Icon(
                                           Icons.delete,
                                           size: 28,

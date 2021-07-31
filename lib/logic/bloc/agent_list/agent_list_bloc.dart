@@ -17,7 +17,7 @@ class AgentListBloc extends Bloc<AgentListEvent, AgentListState> {
 
   @override
   Stream<AgentListState> mapEventToState(AgentListEvent event) async* {
-    yield* event.map(agentList: _agentList);
+    yield* event.map(agentList: _agentList, deleteAgent: _deleteAgent);
   }
 
   Stream<AgentListState> _agentList(_AgentList event) async* {
@@ -25,6 +25,16 @@ class AgentListBloc extends Bloc<AgentListEvent, AgentListState> {
     try {
       List<AgentModel> model = await repository.getAgentList();
       yield AgentListState.loaded(model);
+    } catch (e) {
+      yield AgentListState.field(CatchException.convertException(e));
+    }
+  }
+
+  Stream<AgentListState> _deleteAgent(_DeleteAgent event) async* {
+    yield AgentListState.initial();
+    try {
+      String model = await repository.deleteAgent(event.id);
+      yield AgentListState.delete(model);
     } catch (e) {
       yield AgentListState.field(CatchException.convertException(e));
     }

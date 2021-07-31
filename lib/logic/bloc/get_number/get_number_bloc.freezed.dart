@@ -155,9 +155,13 @@ class _$GetNumberStateTearOff {
     return const _Initial();
   }
 
-  _Loaded loaded(String message) {
+  _Loading loading() {
+    return const _Loading();
+  }
+
+  _Loaded loaded(GetNumberModel model) {
     return _Loaded(
-      message,
+      model,
     );
   }
 
@@ -176,14 +180,16 @@ mixin _$GetNumberState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(String message) loaded,
+    required TResult Function() loading,
+    required TResult Function(GetNumberModel model) loaded,
     required TResult Function(CatchException exception) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(String message)? loaded,
+    TResult Function()? loading,
+    TResult Function(GetNumberModel model)? loaded,
     TResult Function(CatchException exception)? error,
     required TResult orElse(),
   }) =>
@@ -191,6 +197,7 @@ mixin _$GetNumberState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
     required TResult Function(_Error value) error,
   }) =>
@@ -198,6 +205,7 @@ mixin _$GetNumberState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -260,7 +268,8 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(String message) loaded,
+    required TResult Function() loading,
+    required TResult Function(GetNumberModel model) loaded,
     required TResult Function(CatchException exception) error,
   }) {
     return initial();
@@ -270,7 +279,8 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(String message)? loaded,
+    TResult Function()? loading,
+    TResult Function(GetNumberModel model)? loaded,
     TResult Function(CatchException exception)? error,
     required TResult orElse(),
   }) {
@@ -284,6 +294,7 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
     required TResult Function(_Error value) error,
   }) {
@@ -294,6 +305,7 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -310,10 +322,101 @@ abstract class _Initial implements GetNumberState {
 }
 
 /// @nodoc
+abstract class _$LoadingCopyWith<$Res> {
+  factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
+      __$LoadingCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$LoadingCopyWithImpl<$Res> extends _$GetNumberStateCopyWithImpl<$Res>
+    implements _$LoadingCopyWith<$Res> {
+  __$LoadingCopyWithImpl(_Loading _value, $Res Function(_Loading) _then)
+      : super(_value, (v) => _then(v as _Loading));
+
+  @override
+  _Loading get _value => super._value as _Loading;
+}
+
+/// @nodoc
+
+class _$_Loading implements _Loading {
+  const _$_Loading();
+
+  @override
+  String toString() {
+    return 'GetNumberState.loading()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is _Loading);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(GetNumberModel model) loaded,
+    required TResult Function(CatchException exception) error,
+  }) {
+    return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(GetNumberModel model)? loaded,
+    TResult Function(CatchException exception)? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Error value) error,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Loading implements GetNumberState {
+  const factory _Loading() = _$_Loading;
+}
+
+/// @nodoc
 abstract class _$LoadedCopyWith<$Res> {
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) then) =
       __$LoadedCopyWithImpl<$Res>;
-  $Res call({String message});
+  $Res call({GetNumberModel model});
 }
 
 /// @nodoc
@@ -327,13 +430,13 @@ class __$LoadedCopyWithImpl<$Res> extends _$GetNumberStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? message = freezed,
+    Object? model = freezed,
   }) {
     return _then(_Loaded(
-      message == freezed
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
+      model == freezed
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as GetNumberModel,
     ));
   }
 }
@@ -341,27 +444,27 @@ class __$LoadedCopyWithImpl<$Res> extends _$GetNumberStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Loaded implements _Loaded {
-  const _$_Loaded(this.message);
+  const _$_Loaded(this.model);
 
   @override
-  final String message;
+  final GetNumberModel model;
 
   @override
   String toString() {
-    return 'GetNumberState.loaded(message: $message)';
+    return 'GetNumberState.loaded(model: $model)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _Loaded &&
-            (identical(other.message, message) ||
-                const DeepCollectionEquality().equals(other.message, message)));
+            (identical(other.model, model) ||
+                const DeepCollectionEquality().equals(other.model, model)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(model);
 
   @JsonKey(ignore: true)
   @override
@@ -372,22 +475,24 @@ class _$_Loaded implements _Loaded {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(String message) loaded,
+    required TResult Function() loading,
+    required TResult Function(GetNumberModel model) loaded,
     required TResult Function(CatchException exception) error,
   }) {
-    return loaded(message);
+    return loaded(model);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(String message)? loaded,
+    TResult Function()? loading,
+    TResult Function(GetNumberModel model)? loaded,
     TResult Function(CatchException exception)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(message);
+      return loaded(model);
     }
     return orElse();
   }
@@ -396,6 +501,7 @@ class _$_Loaded implements _Loaded {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
     required TResult Function(_Error value) error,
   }) {
@@ -406,6 +512,7 @@ class _$_Loaded implements _Loaded {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -418,9 +525,9 @@ class _$_Loaded implements _Loaded {
 }
 
 abstract class _Loaded implements GetNumberState {
-  const factory _Loaded(String message) = _$_Loaded;
+  const factory _Loaded(GetNumberModel model) = _$_Loaded;
 
-  String get message => throw _privateConstructorUsedError;
+  GetNumberModel get model => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$LoadedCopyWith<_Loaded> get copyWith => throw _privateConstructorUsedError;
 }
@@ -489,7 +596,8 @@ class _$_Error implements _Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(String message) loaded,
+    required TResult Function() loading,
+    required TResult Function(GetNumberModel model) loaded,
     required TResult Function(CatchException exception) error,
   }) {
     return error(exception);
@@ -499,7 +607,8 @@ class _$_Error implements _Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(String message)? loaded,
+    TResult Function()? loading,
+    TResult Function(GetNumberModel model)? loaded,
     TResult Function(CatchException exception)? error,
     required TResult orElse(),
   }) {
@@ -513,6 +622,7 @@ class _$_Error implements _Error {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
     required TResult Function(_Error value) error,
   }) {
@@ -523,6 +633,7 @@ class _$_Error implements _Error {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
     TResult Function(_Error value)? error,
     required TResult orElse(),

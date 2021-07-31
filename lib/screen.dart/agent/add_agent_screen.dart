@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_number/components/custom_button.dart';
-import 'package:get_number/components/custom_loading.dart';
 import 'package:get_number/logic/bloc/add_agent/add_agent_bloc.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
@@ -52,7 +51,7 @@ class _AddAgentScreenState extends State<AddAgentScreen> {
                         orElse: () {});
                   }, builder: (context, state) {
                     return state.maybeMap(
-                      orElse: () => CustomLoading(),
+                      orElse: () => addScreen(),
                       initial: (_) => addScreen(),
                     );
                   }))),

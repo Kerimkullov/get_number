@@ -1,5 +1,6 @@
 import 'package:get_number/logic/model/agent_model.dart';
 import 'package:get_number/logic/model/auth_model.dart';
+import 'package:get_number/logic/model/number_model.dart';
 import 'package:get_number/logic/services/service.dart';
 
 class UserRepository {
@@ -17,5 +18,8 @@ class UserRepository {
       _userProvider.addAgent(msisdn, name);
 
   //get random number
-  Future<String> getNumber() => _userProvider.getNumber();
+  Future<GetNumberModel> getNumber() => _userProvider.getNumber();
+
+  //delete agent
+  Future<String> deleteAgent(int id) => _userProvider.deleteAgent(id);
 }
