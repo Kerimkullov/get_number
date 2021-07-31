@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:get_number/helper/catch_exceptions.dart';
 
 class DioSettings {
-  static final mainServer = "https://randomuser.me";
+  static final mainServer = "https://app1.megacom.kg:9090/virtualnums/api/v1/";
   Dio dio = Dio(BaseOptions(
     baseUrl: mainServer,
     connectTimeout: 10000,
@@ -13,25 +14,17 @@ class DioSettings {
     interceptors.clear();
     dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
       print('ERROR[${options.data}] => PATH: ${options.path}');
-      // Do something before request is sent
-      return handler.next(options); //continue
-      // If you want to resolve the request with some custom data，
-      // you can resolve a `Response` object eg: return `dio.resolve(response)`.
-      // If you want to reject the request with a error message,
-      // you can reject a `DioError` object eg: return `dio.reject(dioError)`
+      return handler.next(options);
     }, onResponse: (response, handler) {
       print(
           'ERROR[${response.statusCode}] => PATH: ${response.requestOptions.path}');
-      // Do something with response data
-      return handler.next(response); // continue
-      // If you want to reject the request with a error message,
-      // you can reject a `DioError` object eg: return `dio.reject(dioError)`
+
+      return handler.next(response);
     }, onError: (DioError e, handler) {
       print(
           'ERROR[${e.response?.statusCode}] => PATH: ${e.requestOptions.path}');
-      return handler.next(e); //continue
-      // If you want to resolve the request with some custom data，
-      // you can resolve a `Response` object eg: return `dio.resolve(response)`.
+      CatchException.convertException(e);
+      return handler.next(e);
     }));
     interceptors.add(LogInterceptor(
       request: true,
