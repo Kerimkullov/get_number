@@ -13,11 +13,11 @@ class DioSettings {
     interceptors.requestLock.lock();
     interceptors.clear();
     dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
-      print('ERROR[${options.data}] => PATH: ${options.path}');
+      print('REQUEST[${options.data}] => PATH: ${options.path}');
       return handler.next(options);
     }, onResponse: (response, handler) {
       print(
-          'ERROR[${response.statusCode}] => PATH: ${response.requestOptions.path}');
+          'RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}');
 
       return handler.next(response);
     }, onError: (DioError e, handler) {

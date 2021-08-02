@@ -14,13 +14,12 @@ class AddAgentScreen extends StatefulWidget {
 
 class _AddAgentScreenState extends State<AddAgentScreen> {
   TextEditingController msisdnController = TextEditingController();
-
   TextEditingController nameController = TextEditingController();
 
   var maskFormatter = new MaskTextInputFormatter(
       mask: ' (###) ###-###', filter: {"#": RegExp(r'[0-9]')});
-  bool _validate = false;
 
+  bool _validate = false;
   final bloc = AddAgentBloc();
 
   @override

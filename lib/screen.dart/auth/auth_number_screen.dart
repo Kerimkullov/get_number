@@ -50,15 +50,7 @@ class _AuthNumberScreenState extends State<AuthNumberScreen> {
                     final prefs = await SharedPreferences.getInstance();
                     prefs.setBool('bio', checkedValue.value);
                     prefs.setInt('id', data.id!);
-                    data.role == "Agent"
-                        ? Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => GetNumberScreen()))
-                        : Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ChoiceScreen()));
+                    checkRole(data.role!);
                   },
                   orElse: () {});
             },
@@ -72,32 +64,6 @@ class _AuthNumberScreenState extends State<AuthNumberScreen> {
         ),
       ),
     );
-  }
-
-  void checkBio() async {
-    final prefs = await SharedPreferences.getInstance();
-    final bioValue = prefs.getBool('bio') ?? false;
-    setState(() {
-      checkedValue.value = bioValue;
-    });
-    if (checkedValue.value) {
-      bio();
-    }
-  }
-
-  void bio() async {
-    var localAuth = LocalAuthentication();
-    bioActual = await localAuth.authenticate(
-        localizedReason: 'Авторизация с помощью отпечатка пальца',
-        biometricOnly: true);
-    if (bioActual == true) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ChoiceScreen()));
-    } else {
-      setState(() {
-        checkedValue.value = bioActual;
-      });
-    }
   }
 
   Widget authScreen() {
@@ -172,6 +138,40 @@ class _AuthNumberScreenState extends State<AuthNumberScreen> {
         ],
       ),
     );
+  }
+
+  void checkBio() async {
+    final prefs = await SharedPreferences.getInstance();
+    final bioValue = prefs.getBool('bio') ?? false;
+    final role = prefs.getString("role") ?? "";
+    setState(() {
+      checkedValue.value = bioValue;
+    });
+    if (checkedValue.value) {
+      bio(role);
+    }
+  }
+
+  void bio(String role) async {
+    var localAuth = LocalAuthentication();
+    bioActual = await localAuth.authenticate(
+        localizedReason: 'Авторизация с помощью отпечатка пальца',
+        biometricOnly: true);
+    if (bioActual == true) {
+      checkRole(role);
+    } else {
+      setState(() {
+        checkedValue.value = bioActual;
+      });
+    }
+  }
+
+  void checkRole(String role) {
+    role == "Agent"
+        ? Navigator.push(
+            context, MaterialPageRoute(builder: (context) => GetNumberScreen()))
+        : Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ChoiceScreen()));
   }
 
   @override
