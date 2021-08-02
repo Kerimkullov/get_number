@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_number/components/custom_button.dart';
 import 'package:get_number/components/custom_loading.dart';
 import 'package:get_number/logic/bloc/auth/auth_bloc.dart';
-import 'package:get_number/screen.dart/agent/agents_list_screen.dart';
 import 'package:get_number/screen.dart/agent/choice_screen.dart';
 import 'package:get_number/screen.dart/get_number_screen/get_number_screen.dart';
 import 'package:local_auth/local_auth.dart';
@@ -93,7 +92,7 @@ class _AuthNumberScreenState extends State<AuthNumberScreen> {
         biometricOnly: true);
     if (bioActual == true) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => AgentsScreen()));
+          context, MaterialPageRoute(builder: (context) => ChoiceScreen()));
     } else {
       setState(() {
         checkedValue.value = bioActual;
@@ -107,8 +106,8 @@ class _AuthNumberScreenState extends State<AuthNumberScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextFormField(
-            inputFormatters: [maskFormatter],
             autofocus: true,
+            inputFormatters: [maskFormatter],
             controller: msisdnController,
             keyboardType: TextInputType.number,
             style: TextStyle(fontSize: 14.0),
@@ -173,5 +172,12 @@ class _AuthNumberScreenState extends State<AuthNumberScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    msisdnController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 }

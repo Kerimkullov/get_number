@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_number/components/custom_loading.dart';
 import 'package:get_number/logic/bloc/agent_list/agent_list_bloc.dart';
+
 import 'add_agent_screen.dart';
 
 class AgentsScreen extends StatefulWidget {
@@ -15,8 +16,11 @@ class _AgentsScreenState extends State<AgentsScreen> {
   final bloc = AgentListBloc();
   @override
   Widget build(BuildContext context) {
+    print("object FOR TEST");
     return Scaffold(
-      appBar: AppBar(title: Text("Агенты")),
+      appBar: AppBar(
+        title: Text("Агенты"),
+      ),
       body: SafeArea(
         child: BlocProvider<AgentListBloc>(
           create: (context) => bloc..add(AgentListEvent.agentList()),
@@ -42,37 +46,40 @@ class _AgentsScreenState extends State<AgentsScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
                           children: [
-                            ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: value.model.length,
-                              itemBuilder: (context, index) => Column(
-                                children: [
-                                  SizedBox(height: 16),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(16)),
-                                    child: ListTile(
-                                      title: Text(
-                                          value.model[index].name.toString(),
-                                          style: TextStyle(fontSize: 20)),
-                                      subtitle: Text(
-                                          value.model[index].msisdn.toString(),
-                                          style: TextStyle(fontSize: 18)),
-                                      trailing: InkWell(
-                                        onTap: () => bloc.add(
-                                            AgentListEvent.deleteAgent(
-                                                value.model[index].id!)),
-                                        child: Icon(
-                                          Icons.delete,
-                                          size: 28,
-                                          color: Colors.black,
+                            Expanded(
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: value.model.length,
+                                itemBuilder: (context, index) => Column(
+                                  children: [
+                                    SizedBox(height: 16),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(16)),
+                                      child: ListTile(
+                                        title: Text(
+                                            value.model[index].name.toString(),
+                                            style: TextStyle(fontSize: 20)),
+                                        subtitle: Text(
+                                            value.model[index].msisdn
+                                                .toString(),
+                                            style: TextStyle(fontSize: 18)),
+                                        trailing: InkWell(
+                                          onTap: () => bloc.add(
+                                              AgentListEvent.deleteAgent(
+                                                  value.model[index].id!)),
+                                          child: Icon(
+                                            Icons.delete,
+                                            size: 28,
+                                            color: Colors.black,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  )
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
                             )
                           ],
@@ -85,7 +92,12 @@ class _AgentsScreenState extends State<AgentsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => AddAgentScreen())),
+            context,
+            MaterialPageRoute(
+                builder: (context) => BlocProvider<AgentListBloc>.value(
+                      value: bloc,
+                      child: AddAgentScreen(),
+                    ))),
         child: Icon(Icons.add),
       ),
     );

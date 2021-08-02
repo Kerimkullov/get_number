@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_number/components/again_screen.dart';
 import 'package:get_number/components/custom_button.dart';
 import 'package:get_number/components/custom_loading.dart';
 import 'package:get_number/logic/bloc/get_number/get_number_bloc.dart';
@@ -31,7 +32,10 @@ class _GetNumberScreenState extends State<GetNumberScreen> {
             },
             builder: (context, state) {
               return state.maybeMap(
-                orElse: () => CustomLoading(),
+                orElse: () => AgainScreen(
+                  tryAgain: getData,
+                ),
+                loading: (_) => CustomLoading(),
                 initial: (_) => Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -44,7 +48,7 @@ class _GetNumberScreenState extends State<GetNumberScreen> {
                       SizedBox(height: 32),
                       CustomButton(
                         color: Colors.blue,
-                        onTap: () => bloc.add(GetNumberEvent.getNumber()),
+                        onTap: () => getData(),
                         child: Text("Получить номер",
                             style:
                                 TextStyle(color: Colors.white, fontSize: 16)),
@@ -78,5 +82,9 @@ class _GetNumberScreenState extends State<GetNumberScreen> {
         ),
       ),
     );
+  }
+
+  void getData() {
+    bloc.add(GetNumberEvent.getNumber());
   }
 }

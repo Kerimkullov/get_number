@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_number/components/custom_button.dart';
 import 'package:get_number/logic/bloc/add_agent/add_agent_bloc.dart';
+import 'package:get_number/logic/bloc/agent_list/agent_list_bloc.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-
-import 'agents_list_screen.dart';
 
 class AddAgentScreen extends StatefulWidget {
   const AddAgentScreen({Key? key}) : super(key: key);
@@ -20,6 +19,7 @@ class _AddAgentScreenState extends State<AddAgentScreen> {
 
   var maskFormatter = new MaskTextInputFormatter(
       mask: ' (###) ###-###', filter: {"#": RegExp(r'[0-9]')});
+  bool _validate = false;
 
   final bloc = AddAgentBloc();
 
@@ -43,10 +43,10 @@ class _AddAgentScreenState extends State<AddAgentScreen> {
                         loaded: (data) async {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(SnackBar(content: Text(data)));
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AgentsScreen()));
+                          context
+                              .read<AgentListBloc>()
+                              .add(AgentListEvent.agentList());
+                          Navigator.pop(context);
                         },
                         orElse: () {});
                   }, builder: (context, state) {
@@ -71,6 +71,7 @@ class _AddAgentScreenState extends State<AddAgentScreen> {
             style: TextStyle(fontSize: 14.0),
             decoration: InputDecoration(
               prefix: Text("+996"),
+              errorText: _validate ? 'Заполните поле' : null,
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.blue),
               ),
@@ -85,6 +86,7 @@ class _AddAgentScreenState extends State<AddAgentScreen> {
             style: TextStyle(fontSize: 14.0),
             decoration: InputDecoration(
               hintText: "Введите ваше имя",
+              errorText: _validate ? 'Заполните поле' : null,
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: Colors.blue,
@@ -98,19 +100,36 @@ class _AddAgentScreenState extends State<AddAgentScreen> {
           CustomButton(
             color: Colors.blue,
             onTap: () {
-              bloc.add(AddAgentEvent.addAgent(
-                  "996" +
-                      msisdnController.text
-                          .replaceAll(" ", "")
-                          .replaceAll(")", "")
-                          .replaceAll("(", "")
-                          .replaceAll("-", ""),
-                  nameController.text));
+              if (msisdnController.text.isEmpty ||
+                  nameController.text.isEmpty) {
+                setState(() {
+                  _validate = true;
+                });
+              } else {
+                bloc.add(AddAgentEvent.addAgent(
+                    "996" +
+                        msisdnController.text
+                            .replaceAll(" ", "")
+                            .replaceAll(")", "")
+                            .replaceAll("(", "")
+                            .replaceAll("-", ""),
+                    nameController.text));
+                setState(() {
+                  _validate = false;
+                });
+              }
             },
             child: Text("Добавить", style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    msisdnController.dispose();
+    nameController.dispose();
+    super.dispose();
   }
 }
