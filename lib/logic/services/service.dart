@@ -4,6 +4,7 @@ import 'package:get_number/helper/dio_settings.dart';
 import 'package:get_number/logic/model/agent_model.dart';
 import 'package:get_number/logic/model/auth_model.dart';
 import 'package:get_number/logic/model/number_model.dart';
+import 'package:get_number/logic/model/sms_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ServiceApi {
@@ -65,6 +66,15 @@ class ServiceApi {
     try {
       final response = await _dio.get("agent/delete?id=$id");
       return response.data["message"];
+    } on DioError catch (e) {
+      throw CatchException.convertException(e);
+    }
+  }
+
+  Future<List<SmsModel>> getSms(String msisdn) async {
+    try {
+      final response = await _dio.get("sms/get/by/msisdn?msisdn=$msisdn");
+      return response.data.map<SmsModel>((e) => SmsModel.fromJson(e)).toList();
     } on DioError catch (e) {
       throw CatchException.convertException(e);
     }

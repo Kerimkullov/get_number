@@ -4,6 +4,7 @@ import 'package:get_number/components/again_screen.dart';
 import 'package:get_number/components/custom_button.dart';
 import 'package:get_number/components/custom_loading.dart';
 import 'package:get_number/logic/bloc/get_number/get_number_bloc.dart';
+import 'package:get_number/screen.dart/get_sms_screen/get_sms_screen.dart';
 
 class GetNumberScreen extends StatefulWidget {
   GetNumberScreen({Key? key}) : super(key: key);
@@ -28,6 +29,11 @@ class _GetNumberScreenState extends State<GetNumberScreen> {
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(error.message.toString())))
                       },
+                  loaded: (data) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content:
+                            Text("Вы успешно получили номер ${data.msisdn}")));
+                  },
                   orElse: () {});
             },
             builder: (context, state) {
@@ -68,7 +74,11 @@ class _GetNumberScreenState extends State<GetNumberScreen> {
                       SizedBox(height: 32),
                       CustomButton(
                         color: Colors.blue,
-                        onTap: () => {},
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    GetSmsScreen(msisdn: data.model.msisdn))),
                         child: Text("Получить SMS",
                             style:
                                 TextStyle(color: Colors.white, fontSize: 16)),

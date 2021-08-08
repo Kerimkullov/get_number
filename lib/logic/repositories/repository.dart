@@ -1,6 +1,7 @@
 import 'package:get_number/logic/model/agent_model.dart';
 import 'package:get_number/logic/model/auth_model.dart';
 import 'package:get_number/logic/model/number_model.dart';
+import 'package:get_number/logic/model/sms_model.dart';
 import 'package:get_number/logic/services/service.dart';
 
 class UserRepository {
@@ -22,4 +23,7 @@ class UserRepository {
 
   //delete agent
   Future<String> deleteAgent(int id) => _userProvider.deleteAgent(id);
+
+  //get sms
+  Future<List<SmsModel>> getSms(String msisdn) => _userProvider.getSms(msisdn);
 }
