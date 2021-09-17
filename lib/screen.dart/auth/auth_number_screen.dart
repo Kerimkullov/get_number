@@ -5,6 +5,7 @@ import 'package:get_number/components/custom_loading.dart';
 import 'package:get_number/logic/bloc/auth/auth_bloc.dart';
 import 'package:get_number/screen.dart/agent/choice_screen.dart';
 import 'package:get_number/screen.dart/get_number_screen/get_number_screen.dart';
+import 'package:get_number/screen.dart/get_number_screen/get_number_screen_for_agent.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,9 +18,10 @@ class AuthNumberScreen extends StatefulWidget {
 class _AuthNumberScreenState extends State<AuthNumberScreen> {
   TextEditingController msisdnController = TextEditingController();
   final focus = FocusNode();
-  TextEditingController passwordController = TextEditingController();
+
   var maskFormatter = new MaskTextInputFormatter(
       mask: ' (###) ###-###', filter: {"#": RegExp(r'[0-9]')});
+  TextEditingController passwordController = TextEditingController();
   var pinFormatter =
       new MaskTextInputFormatter(mask: '####', filter: {"#": RegExp(r'[0-9]')});
   ValueNotifier<bool> checkedValue = ValueNotifier<bool>(true);
@@ -50,6 +52,7 @@ class _AuthNumberScreenState extends State<AuthNumberScreen> {
                     final prefs = await SharedPreferences.getInstance();
                     prefs.setBool('bio', checkedValue.value);
                     prefs.setInt('id', data.id!);
+                    prefs.setString("role", data.role!);
                     checkRole(data.role!);
                   },
                   orElse: () {});
@@ -168,9 +171,9 @@ class _AuthNumberScreenState extends State<AuthNumberScreen> {
 
   void checkRole(String role) {
     role == "Agent"
-        ? Navigator.push(
-            context, MaterialPageRoute(builder: (context) => GetNumberScreen()))
-        : Navigator.push(
+        ? Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => GetNumberScreenForAgent()))
+        : Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => ChoiceScreen()));
   }
 

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_number/components/%20custom_container.dart';
 import 'package:get_number/components/custom_loading.dart';
 import 'package:get_number/logic/bloc/agent_list/agent_list_bloc.dart';
 
 import 'add_agent_screen.dart';
+import 'agent_remove_screen.dart';
+import 'blocked_agents_screen.dart';
 
 class AgentsScreen extends StatefulWidget {
   AgentsScreen({Key? key}) : super(key: key);
@@ -46,6 +49,17 @@ class _AgentsScreenState extends State<AgentsScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
                           children: [
+                            SizedBox(
+                              height: 20,
+                            ),
+                            CustomContainer(
+                                onTap: () => Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            BlockedAgentsScreen())),
+                                text: "Заблокированные агенты",
+                                color: Colors.red),
                             Expanded(
                               child: ListView.builder(
                                 shrinkWrap: true,
@@ -53,28 +67,38 @@ class _AgentsScreenState extends State<AgentsScreen> {
                                 itemBuilder: (context, index) => Column(
                                   children: [
                                     SizedBox(height: 16),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(16)),
-                                      child: ListTile(
-                                        title: Text(
-                                            value.model[index].name.toString(),
-                                            style: TextStyle(fontSize: 20)),
-                                        subtitle: Text(
-                                            value.model[index].msisdn
-                                                .toString(),
-                                            style: TextStyle(fontSize: 18)),
-                                        trailing: InkWell(
-                                          onTap: () => bloc.add(
-                                              AgentListEvent.deleteAgent(
-                                                  value.model[index].id!)),
-                                          child: Icon(
-                                            Icons.delete,
-                                            size: 28,
-                                            color: Colors.black,
-                                          ),
+                                    InkWell(
+                                      onTap: () => Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RemoveAgentScreen(
+                                                    agentName: value
+                                                        .model[index].name
+                                                        .toString(),
+                                                    number: value
+                                                        .model[index].msisdn
+                                                        .toString(),
+                                                    id: value.model[index].id!,
+                                                    block: value
+                                                        .model[index].block!,
+                                                  ))),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(16)),
+                                        child: ListTile(
+                                          title: Text(
+                                              value.model[index].name
+                                                  .toString(),
+                                              style: TextStyle(fontSize: 20)),
+                                          subtitle: Text(
+                                              value.model[index].msisdn
+                                                  .toString(),
+                                              style: TextStyle(fontSize: 18)),
+                                          trailing: Text(
+                                              "pin - ${value.model[index].pin.toString()}"),
                                         ),
                                       ),
                                     )
@@ -103,3 +127,8 @@ class _AgentsScreenState extends State<AgentsScreen> {
     );
   }
 }
+
+
+// bloc.add(
+//                                               AgentListEvent.deleteAgent(
+//                                                   value.model[index].id!))

@@ -1,13 +1,13 @@
-class AgentModel {
+class BlockedAgentModel {
   String? pin;
   String? name;
   bool? block;
   int? id;
   String? msisdn;
 
-  AgentModel({this.pin, this.name, this.block, this.id, this.msisdn});
+  BlockedAgentModel({this.pin, this.name, this.block, this.id, this.msisdn});
 
-  AgentModel.fromJson(Map<String, dynamic> json) {
+  BlockedAgentModel.fromJson(Map<String, dynamic> json) {
     pin = json['pin'];
     name = json['name'];
     block = json['block'];

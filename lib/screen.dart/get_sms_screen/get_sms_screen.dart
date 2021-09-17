@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_number/components/again_screen.dart';
 import 'package:get_number/components/custom_loading.dart';
 import 'package:get_number/logic/bloc/get_sms/get_sms_bloc.dart';
+import 'package:get_number/logic/model/sms_model.dart';
 
 class GetSmsScreen extends StatefulWidget {
   GetSmsScreen({Key? key, this.msisdn}) : super(key: key);
@@ -21,11 +22,14 @@ class _GetSmsScreenState extends State<GetSmsScreen> {
         title: Text("Страница СМС"),
       ),
       body: Container(
-        padding: EdgeInsets.all(32),
+        padding: EdgeInsets.all(18),
         child: BlocProvider<GetSmsBloc>(
           create: (context) => bloc..add(GetSmsEvent.getSms(widget.msisdn!)),
           child: BlocConsumer<GetSmsBloc, GetSmsState>(
-            listener: (context, state) {
+            listener: (
+              context,
+              state,
+            ) {
               state.maybeWhen(
                   error: (error) => {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -33,24 +37,41 @@ class _GetSmsScreenState extends State<GetSmsScreen> {
                       },
                   orElse: () {});
             },
-            builder: (context, state) {
+            builder: (
+              context,
+              state,
+            ) {
               return state.maybeMap(
                 orElse: () => AgainScreen(
                   tryAgain: getData,
                 ),
                 initial: (_) => CustomLoading(),
-                loaded: (data) => Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        data.model.toString(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      SizedBox(height: 32),
-                    ],
-                  ),
+                loaded: (
+                  data,
+                ) =>
+                    ListView(
+                  // children: buildBodySmsChildren(data.model),
+                  children: [
+                    Center(
+                      child: TextButton(
+                          onPressed: () {
+                            setState(() {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        GetSmsScreen(msisdn: widget.msisdn)),
+                              );
+                            });
+                          },
+                          child: Text(
+                            "Обновить страницу",
+                            style: TextStyle(fontSize: 20),
+                          )),
+                    ),
+                    for (int i = 0; i < data.model.length; i++)
+                      buildBodySms(data.model[i], i, context),
+                  ],
                 ),
               );
             },
@@ -68,5 +89,71 @@ class _GetSmsScreenState extends State<GetSmsScreen> {
 
   void getData() {
     bloc.add(GetSmsEvent.getSms(widget.msisdn!));
+  }
+
+  // List<Widget> buildBodySmsChildren(List<SmsModel> list) {
+  //   List<Widget>? _list = [];
+  //   if (list.isNotEmpty) {
+  //     for (SmsModel i in list) {
+  //       _list.add(Center(
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             Text(
+  //               i.message.toString(),
+  //               textAlign: TextAlign.center,
+  //               style: TextStyle(fontSize: 20),
+  //             ),
+  //             SizedBox(height: 32),
+  //             TextButton(
+  //                 onPressed: () {},
+  //                 child: Text(text))
+  //           ],
+  //         ),
+  //       ));
+  //     }
+  //   } else
+  //     _list.add(
+  //       Center(
+  //         child: Column(
+  //           children: [
+  //             Text("Сообщений нет"),
+  //             TextButton(onPressed: () {}, child: Text("Повторить запрос"))
+  //           ],
+  //         ),
+  //       ),
+  //     );
+
+  //   print("List is Empty or not $_list");
+  //   return _list;
+  // }
+
+  Widget buildBodySms(SmsModel model, int index, BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width,
+            height: 250,
+            color: Colors.blueAccent,
+            child: Text(
+              model.message.toString(),
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+          ),
+          Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width,
+              height: 30,
+              color: Colors.blueGrey,
+              child: Text("Дата - ${model.date.toString()}",
+                  style: TextStyle(fontSize: 20, color: Colors.white))),
+          SizedBox(height: 32),
+        ],
+      ),
+    );
   }
 }

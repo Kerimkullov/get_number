@@ -28,13 +28,13 @@ class CatchException {
       } else if (error.response!.statusCode == 409) {
         return CatchException(message: error.response!.data["message"]);
       } else {
-        return CatchException(message: 'Произошла системаная ошибка');
+        return CatchException(message: 'Произошла системная ошибка');
       }
     }
     if (error is CatchException) {
       return error;
     } else {
-      return CatchException(message: 'Произошла системаная ошибка');
+      return CatchException(message: 'Произошла системная ошибка');
     }
   }
 }
