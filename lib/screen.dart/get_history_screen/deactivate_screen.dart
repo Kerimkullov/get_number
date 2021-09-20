@@ -54,28 +54,22 @@ class _DeactivateScreenState extends State<DeactivateScreen> {
                     loading: (_) => CustomLoading(),
                     loaded: (data) => Center(
                           child: Column(children: [
-                            Text(
-                              "${data.massage} деактивирован",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
+                            Text("${data.massage} деактивирован",
+                                style: TextStyle(fontSize: 20)),
+                            const SizedBox(height: 30),
                             TextButton(
                                 onPressed: () => Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             GetHistoryOfNumbers())),
-                                child: Text("Вернуться на пред страницу",
+                                child: const Text("Вернуться на пред страницу",
                                     style: TextStyle(fontSize: 20)))
                           ]),
                         ),
                     error: (error) => Center(
-                          child: Text(
-                            error.exception.message.toString(),
-                            style: TextStyle(fontSize: 20),
-                          ),
+                          child: Text(error.exception.message.toString(),
+                              style: TextStyle(fontSize: 20)),
                         ));
               },
             ),

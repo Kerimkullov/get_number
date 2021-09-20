@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_number/components/again_screen.dart';
 import 'package:get_number/components/custom_loading.dart';
 import 'package:get_number/logic/bloc/get_history_of_numbers/bloc/history_of_numbers_bloc.dart';
+import 'package:get_number/logic/model/history_number_model.dart';
 import 'package:get_number/screen.dart/get_history_screen/detail_number_screen.dart';
 import 'package:get_number/screen.dart/get_number_screen/get_number_screen.dart';
 import 'package:get_number/screen.dart/get_number_screen/get_number_screen_for_agent.dart';
@@ -129,13 +130,8 @@ class _GetHistoryOfNumbersState extends State<GetHistoryOfNumbers> {
                     builder: (context, state) {
                       return state.maybeMap(
                           loading: (_) => CustomLoading(),
-                          loaded: (data) => ListView(
-                                children: [
-                                  for (int i = 0; i < data.model.length; i++)
-                                    buildNumbersCard(
-                                        data.model[i].msisdn, i, context),
-                                ],
-                              ),
+                          loaded: (data) =>
+                              _GetHistoryNumbers(listNumber: data.model),
                           error: (error) => AgainScreen(
                                 tryAgain: getHistoryNumbers,
                               ),
@@ -223,53 +219,6 @@ class _GetHistoryOfNumbersState extends State<GetHistoryOfNumbers> {
     );
   }
 
-  Widget buildNumbersCard(numbers, int index, BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Material(
-            child: InkWell(
-              onTap: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DetailNuberScreen(numer: numbers))),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(10)),
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Icon(
-                      Icons.phone,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Text(
-                      numbers.toString(),
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          )
-        ],
-      ),
-    );
-  }
-
   void getHistoryNumbers() {
     bloc.add(HistoryOfNumbersEvent.getHistoryNumbers());
   }
@@ -284,5 +233,57 @@ class _GetHistoryOfNumbersState extends State<GetHistoryOfNumbers> {
               .replaceAll("-", ""),
     ));
     print("996${msisdnController.text} ---");
+  }
+}
+
+class _GetHistoryNumbers extends StatelessWidget {
+  const _GetHistoryNumbers({Key? key, required this.listNumber})
+      : super(key: key);
+  final List<HistoryNumberModels> listNumber;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+        separatorBuilder: (BuildContext context, int index) =>
+            const SizedBox(height: 30),
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: listNumber.length,
+        itemBuilder: (_, index) {
+          return InkWell(
+            onTap: () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        DetailNuberScreen(numer: listNumber[index].msisdn!))),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.blueAccent,
+                  borderRadius: BorderRadius.circular(10)),
+              width: MediaQuery.of(context).size.width,
+              height: 50,
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Icon(
+                    Icons.phone,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    listNumber[index].msisdn!.toString(),
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

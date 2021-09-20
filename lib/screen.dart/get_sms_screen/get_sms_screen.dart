@@ -49,28 +49,21 @@ class _GetSmsScreenState extends State<GetSmsScreen> {
                 loaded: (
                   data,
                 ) =>
-                    ListView(
-                  // children: buildBodySmsChildren(data.model),
+                    Column(
                   children: [
                     Center(
                       child: TextButton(
                           onPressed: () {
-                            setState(() {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        GetSmsScreen(msisdn: widget.msisdn)),
-                              );
-                            });
+                            context
+                                .read<GetSmsBloc>()
+                                .add(GetSmsEvent.getSms(widget.msisdn!));
                           },
                           child: Text(
                             "Обновить страницу",
                             style: TextStyle(fontSize: 20),
                           )),
                     ),
-                    for (int i = 0; i < data.model.length; i++)
-                      buildBodySms(data.model[i], i, context),
+                    _ListOfMassages(listMassage: data.model)
                   ],
                 ),
               );
@@ -128,32 +121,78 @@ class _GetSmsScreenState extends State<GetSmsScreen> {
   //   return _list;
   // }
 
-  Widget buildBodySms(SmsModel model, int index, BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width,
-            height: 250,
-            color: Colors.blueAccent,
-            child: Text(
-              model.message.toString(),
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, color: Colors.white),
-            ),
-          ),
-          Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width,
-              height: 30,
-              color: Colors.blueGrey,
-              child: Text("Дата - ${model.date.toString()}",
-                  style: TextStyle(fontSize: 20, color: Colors.white))),
-          SizedBox(height: 32),
-        ],
-      ),
+//   Widget buildBodySms(SmsModel model, int index, BuildContext context) {
+//     return Center(
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           Container(
+//             alignment: Alignment.center,
+//             width: MediaQuery.of(context).size.width,
+//             height: 250,
+//             color: Colors.blueAccent,
+//             child: Text(
+//               model.message.toString(),
+//               textAlign: TextAlign.center,
+//               style: TextStyle(fontSize: 20, color: Colors.white),
+//             ),
+//           ),
+//           Container(
+//               alignment: Alignment.center,
+//               width: MediaQuery.of(context).size.width,
+//               height: 30,
+//               color: Colors.blueGrey,
+//               child: Text("Дата - ${model.date.toString()}",
+//                   style: TextStyle(fontSize: 20, color: Colors.white))),
+//           SizedBox(height: 32),
+//         ],
+//       ),
+//     );
+//   }
+}
+
+class _ListOfMassages extends StatelessWidget {
+  const _ListOfMassages({Key? key, required this.listMassage})
+      : super(key: key);
+  final List<SmsModel> listMassage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView.builder(
+          physics: AlwaysScrollableScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemCount: listMassage.length,
+          itemBuilder: (_, index) {
+            return Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width,
+                    height: 250,
+                    color: Colors.blueAccent,
+                    child: Text(
+                      listMassage[index].message.toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                  ),
+                  Container(
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width,
+                      height: 30,
+                      color: Colors.blueGrey,
+                      child: Text(
+                          "Дата - ${listMassage[index].date.toString()}",
+                          style: TextStyle(fontSize: 20, color: Colors.white))),
+                  SizedBox(height: 32),
+                ],
+              ),
+            );
+          }),
     );
   }
 }
